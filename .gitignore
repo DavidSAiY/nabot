@@ -32,6 +32,9 @@ context/audience.*
 context/business-*.json
 context/analysis/
 
+# Tweet queue & posted data (personal content)
+tweets/
+
 # Personal knowledge & content
 knowledge/engagement/
 knowledge/content/
