@@ -1,0 +1,50 @@
+# Session & credentials
+x_session.json
+browser_cookies.json
+
+# Debug screenshots
+debug_*.png
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+
+# Firecrawl cache
+.firecrawl/
+
+# Podcast audio & transcripts (personal content, too large for git)
+podcast/audio/
+podcast/transcripts/
+podcast/manifest.json
+podcast/voice_analysis.json
+podcast/overnight.log
+
+# Personal context profiles (use templates to create your own)
+context/core/voice-dna.json
+context/core/icp.json
+context/core/business-profile-*.json
+!context/core/business-profile-template.json
+context/analysis/
+
+# Personal knowledge & content
+knowledge/engagement/
+knowledge/content/
+knowledge/drafts/
+knowledge/notes/
+
+# Claude config (may contain API keys)
+.claude/config.json
+
+# Misc personal/research files
+*.html
+
+# IDE
+.vscode/
+*.local.json
