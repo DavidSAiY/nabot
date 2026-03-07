@@ -400,20 +400,19 @@ def post_replies():
                 page.goto(reply["tweet_url"], wait_until="domcontentloaded")
                 time.sleep(5)
 
-                # Click the reply button on the main tweet
-                reply_btn = page.locator('article[data-testid="tweet"]').first.locator('button[data-testid="reply"]')
-                reply_btn.click()
+                # Use the inline reply box (first match — the visible one)
+                reply_box = page.locator('[data-testid="tweetTextarea_0"]').first
+                reply_box.click()
+                time.sleep(1)
+                reply_box.type(reply["text"], delay=20)
                 time.sleep(2)
 
-                # Type in the reply box
-                reply_box = page.locator('[data-testid="tweetTextarea_0"]')
-                reply_box.click()
-                time.sleep(0.5)
-                reply_box.type(reply["text"], delay=20)
-                time.sleep(1)
-
-                # Post the reply
-                page.locator('[data-testid="tweetButton"]').click()
+                # Post the reply — try tweetButton, fall back to tweetButtonInline
+                post_btn = page.locator('[data-testid="tweetButton"]').first
+                if post_btn.is_visible(timeout=3000):
+                    post_btn.click()
+                else:
+                    page.locator('[data-testid="tweetButtonInline"]').first.click()
                 time.sleep(3)
 
                 reply["posted"] = True
@@ -421,6 +420,8 @@ def post_replies():
                 reply["status"] = "posted"
                 print(f"  Posted!")
 
+                # Navigate away to reset page state before next reply
+                page.goto("https://x.com/home", wait_until="domcontentloaded")
                 time.sleep(3)
 
             except Exception as e:
