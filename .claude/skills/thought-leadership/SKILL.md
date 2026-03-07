@@ -388,6 +388,7 @@ Before delivering, verify:
 - [ ] 800-1,500 words total
 - [ ] Formatted for email (short paragraphs, white space, clean)
 - [ ] Sounds like the user (verified against voice-dna.json)
+- [ ] Has it been run through the humanizer?
 
 ---
 

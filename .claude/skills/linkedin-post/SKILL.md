@@ -105,6 +105,10 @@ Defined by your voice-dna.json. Supports primary and secondary languages with na
 - 2-3 relevant hashtags at the very end, separated from the post
 - No emojis in the post body (rare exception: a single one if genuinely natural)
 
+## Humanize (MANDATORY — run AFTER writing)
+
+Apply the `/humanizer` skill to all posts before presenting. Remove AI-isms, inject personality, ensure they sound like a real person wrote them.
+
 ## Quality Checklist
 
 Before delivering:
@@ -116,6 +120,7 @@ Before delivering:
 - [ ] Is the white space right? (Not a wall, not broetry)
 - [ ] Does it match the voice DNA?
 - [ ] No engagement bait, no humble-brag, no listicle energy?
+- [ ] Has it been run through the humanizer?
 
 ## Engagement Learning
 

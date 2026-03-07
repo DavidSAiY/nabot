@@ -106,6 +106,9 @@ Generate 3 tweets with variety across languages and tweet types.
 
 Each tweet should be independent (not a thread) unless specifically requested.
 
+### Step 5: Humanize (MANDATORY — run AFTER writing)
+9. **Run humanizer** — Apply the `/humanizer` skill to all tweets before presenting. Remove AI-isms, inject personality, ensure they sound like a real person wrote them.
+
 ## Quality Checklist
 
 Before delivering:
@@ -115,6 +118,7 @@ Before delivering:
 - [ ] Would your target audience share this?
 - [ ] Is it under 280 characters?
 - [ ] Does it match the voice DNA?
+- [ ] Has it been run through the humanizer?
 
 ## Engagement Learning
 

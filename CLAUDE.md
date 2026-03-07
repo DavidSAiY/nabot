@@ -39,6 +39,7 @@ When I ask you to write something:
 3. Check if there's a skill for this content type
 4. If there's a skill, follow its instructions
 5. Produce content that matches my voice and serves my audience
+6. **Always run the humanizer** — Apply the `humanizer` skill to all content before presenting. This is mandatory for every piece of content.
 
 ---
 

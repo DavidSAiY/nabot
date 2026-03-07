@@ -86,6 +86,7 @@ nabot/
 │   ├── skills/                 # Content generation skills
 │   │   ├── x-tweet/           # Tweet generation with research pipeline
 │   │   ├── linkedin-post/     # LinkedIn post generation
+│   │   ├── humanizer/         # AI writing pattern removal (runs on all content)
 │   │   └── thought-leadership/ # Newsletter writing
 │   └── agents/                 # Specialized agents
 │       ├── researcher-agent.md # Research and analysis
@@ -120,6 +121,9 @@ Generates 3 tweets/day with a mandatory research pipeline:
 
 ### linkedin-post
 Generates LinkedIn posts: pattern recognition, contrarian takes, tactical playbooks, ecosystem commentary.
+
+### humanizer
+Removes signs of AI-generated writing from all content. Based on Wikipedia's "Signs of AI writing" guide — detects and fixes 24 patterns including significance inflation, promotional language, AI vocabulary, em dash overuse, and more. Runs automatically as a final step on all content.
 
 ### thought-leadership
 Creates newsletters (800-1,500 words) with subject lines, skimmable headers, and actionable content.
