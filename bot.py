@@ -179,7 +179,7 @@ def post_tweets():
                 tweet_box = page.locator('[data-testid="tweetTextarea_0"]')
                 tweet_box.click()
                 time.sleep(0.5)
-                tweet_box.type(tweet["text"], delay=20)
+                page.keyboard.insert_text(tweet["text"])
                 time.sleep(1)
 
                 page.locator('[data-testid="tweetButton"]').click()
@@ -404,7 +404,7 @@ def post_replies():
                 reply_box = page.locator('[data-testid="tweetTextarea_0"]').first
                 reply_box.click()
                 time.sleep(1)
-                reply_box.type(reply["text"], delay=20)
+                page.keyboard.insert_text(reply["text"])
                 time.sleep(2)
 
                 # Post the reply — try tweetButton, fall back to tweetButtonInline
