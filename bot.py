@@ -179,7 +179,7 @@ def post_tweets():
                 tweet_box = page.locator('[data-testid="tweetTextarea_0"]')
                 tweet_box.click()
                 time.sleep(0.5)
-                page.keyboard.insert_text(tweet["text"])
+                page.keyboard.type(tweet["text"], delay=10)
                 time.sleep(1)
 
                 page.locator('[data-testid="tweetButton"]').click()
@@ -400,19 +400,26 @@ def post_replies():
                 page.goto(reply["tweet_url"], wait_until="domcontentloaded")
                 time.sleep(5)
 
-                # Use the inline reply box (first match — the visible one)
+                # Extract status ID from reply URL and use compose endpoint
+                import re
+                status_match = re.search(r'/status/(\d+)', reply["tweet_url"])
+                if not status_match:
+                    print(f"  Could not extract status ID from {reply['tweet_url']}")
+                    continue
+                status_id = status_match.group(1)
+
+                page.goto(f"https://x.com/compose/post?reply_to={status_id}", wait_until="domcontentloaded")
+                time.sleep(3)
+
+                # Type in the compose reply box
                 reply_box = page.locator('[data-testid="tweetTextarea_0"]').first
                 reply_box.click()
-                time.sleep(1)
-                page.keyboard.insert_text(reply["text"])
+                time.sleep(0.5)
+                page.keyboard.type(reply["text"], delay=10)
                 time.sleep(2)
 
-                # Post the reply — try tweetButton, fall back to tweetButtonInline
-                post_btn = page.locator('[data-testid="tweetButton"]').first
-                if post_btn.is_visible(timeout=3000):
-                    post_btn.click()
-                else:
-                    page.locator('[data-testid="tweetButtonInline"]').first.click()
+                # Post
+                page.locator('[data-testid="tweetButton"]').first.click()
                 time.sleep(3)
 
                 reply["posted"] = True
