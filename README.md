@@ -78,6 +78,7 @@ nabot/
 │   ├── skills/                 # Content generation skills
 │   │   ├── x-tweet/           # Tweet generation with research pipeline
 │   │   ├── linkedin-post/     # LinkedIn post generation
+│   │   ├── x-reply/           # Reply generation with research + humanizer
 │   │   ├── humanizer/         # AI writing pattern removal (24 patterns)
 │   │   └── thought-leadership/ # Newsletter writing
 │   └── agents/                 # Specialized agents
@@ -97,6 +98,7 @@ nabot/
 │   └── analyze_voice.py        # Extract voice patterns from transcripts
 ├── bot.py                       # Tweet bot CLI (generate/approve/post)
 ├── scrape_profile.py            # Scrape engagement from your X profile
+├── scrape_replies.py            # Scrape replies to your tweets
 ├── scrape_personal.py           # Scrape personal account for voice analysis
 └── import_cookies.py            # Import browser cookies for X.com auth
 ```
@@ -106,12 +108,16 @@ nabot/
 The CLI for managing your tweet pipeline:
 
 ```bash
-python3 bot.py generate   # Generate tweets via Claude
-python3 bot.py add "text" # Add a tweet to the approval queue
-python3 bot.py approve    # Interactive review (approve/reject/edit)
-python3 bot.py post       # Post approved tweets to X.com
-python3 bot.py analyze    # Scrape engagement metrics
-python3 bot.py status     # Show queue status
+python3 bot.py generate        # Generate tweets via Claude
+python3 bot.py add "text"      # Add a tweet to the approval queue
+python3 bot.py approve         # Interactive review (approve/reject/edit)
+python3 bot.py post            # Post approved tweets to X.com
+python3 bot.py analyze         # Scrape engagement metrics
+python3 bot.py status          # Show queue status
+python3 bot.py replies         # Scrape replies to your tweets
+python3 bot.py reply-approve   # Review generated replies
+python3 bot.py reply-post      # Post approved replies
+python3 bot.py reply-status    # Show reply queue status
 ```
 
 ## Skills
@@ -125,6 +131,9 @@ Generates 3 tweets/day with a mandatory pipeline:
 
 ### linkedin-post
 Pattern recognition, contrarian takes, tactical playbooks, ecosystem commentary. Humanized.
+
+### x-reply
+Generates replies to people who respond to your tweets. Reads their reply, matches language (Hebrew/English), researches if needed, humanizes before sending. All replies go through approval before posting.
 
 ### humanizer
 Strips 24 AI writing patterns from all content. Based on Wikipedia's "Signs of AI writing" guide. Runs automatically as the final step on everything.

@@ -3,11 +3,16 @@ NaBot - AI co-writing tweet bot
 Generates tweets/day, queues for approval, posts approved ones.
 
 Usage:
-  python3 bot.py generate   — Generate tweets for today
-  python3 bot.py approve    — Review and approve/reject queued tweets
-  python3 bot.py post       — Post approved tweets to X.com
-  python3 bot.py analyze    — Analyze engagement on recent tweets
-  python3 bot.py status     — Show current queue status
+  python3 bot.py generate        — Generate tweets for today
+  python3 bot.py approve         — Review and approve/reject queued tweets
+  python3 bot.py post            — Post approved tweets to X.com
+  python3 bot.py analyze         — Analyze engagement on recent tweets
+  python3 bot.py status          — Show current queue status
+  python3 bot.py replies         — Scrape replies to recent tweets
+  python3 bot.py reply-add "text" tweet_url  — Add a reply to the queue
+  python3 bot.py reply-approve   — Review and approve/reject queued replies
+  python3 bot.py reply-post      — Post approved replies to X.com
+  python3 bot.py reply-status    — Show reply queue status
 
 Configuration:
   Set your X handle in config or pass as environment variable:
@@ -25,6 +30,8 @@ TWEETS_DIR = BASE_DIR / "tweets"
 QUEUE_FILE = TWEETS_DIR / "queue.json"
 POSTED_FILE = TWEETS_DIR / "posted.json"
 ENGAGEMENT_FILE = BASE_DIR / "knowledge" / "engagement" / "engagement_log.json"
+REPLIES_FILE = BASE_DIR / "knowledge" / "engagement" / "replies.json"
+REPLY_QUEUE_FILE = TWEETS_DIR / "reply_queue.json"
 SESSION_FILE = BASE_DIR / "x_session.json"
 
 X_HANDLE = os.environ.get("X_HANDLE", "your_handle")
@@ -266,6 +273,193 @@ def analyze_engagement():
         browser.close()
 
 
+def scrape_replies():
+    """Scrape replies to recent tweets."""
+    import subprocess
+    result = subprocess.run([sys.executable, str(BASE_DIR / "scrape_replies.py")], cwd=str(BASE_DIR))
+    if result.returncode != 0:
+        print("Failed to scrape replies.")
+        return
+
+    replies_data = load_json(REPLIES_FILE)
+    total = sum(len(t["replies"]) for t in replies_data)
+    print(f"\n{total} replies loaded. Use Claude to generate responses:")
+    print('  Tell Claude: "generate replies to recent tweet responses"')
+    print("  Then: python3 bot.py reply-approve")
+
+
+def add_reply(text, tweet_url):
+    """Add a reply to the approval queue."""
+    queue = load_json(REPLY_QUEUE_FILE)
+    reply = {
+        "id": len(queue) + 1,
+        "text": text,
+        "tweet_url": tweet_url,
+        "status": "pending",
+        "created_at": datetime.now().isoformat(),
+    }
+    queue.append(reply)
+    save_json(REPLY_QUEUE_FILE, queue)
+    print(f"Reply #{reply['id']} added to queue (pending approval).")
+    print(f"  To: {tweet_url}")
+    print(f"  \"{text[:80]}{'...' if len(text) > 80 else ''}\"")
+
+
+def approve_replies():
+    """Interactive approval of queued replies."""
+    queue = load_json(REPLY_QUEUE_FILE)
+    pending = [r for r in queue if r["status"] == "pending"]
+
+    if not pending:
+        print("No replies pending approval.")
+        return
+
+    print(f"\n{len(pending)} reply(ies) pending approval:\n")
+
+    for reply in pending:
+        print(f"--- Reply #{reply['id']} ---")
+        print(f"To: {reply['tweet_url']}")
+        print(f"{reply['text']}")
+        print()
+
+        while True:
+            choice = input("[a]pprove / [r]eject / [e]dit / [s]kip? ").strip().lower()
+            if choice == "a":
+                reply["status"] = "approved"
+                reply["approved_at"] = datetime.now().isoformat()
+                print("Approved!")
+                break
+            elif choice == "r":
+                reply["status"] = "rejected"
+                print("Rejected.")
+                break
+            elif choice == "e":
+                new_text = input("New text: ").strip()
+                if new_text:
+                    reply["text"] = new_text
+                    reply["status"] = "approved"
+                    reply["approved_at"] = datetime.now().isoformat()
+                    reply["edited"] = True
+                    print("Edited and approved!")
+                break
+            elif choice == "s":
+                print("Skipped.")
+                break
+
+        print()
+
+    save_json(REPLY_QUEUE_FILE, queue)
+    approved = len([r for r in queue if r["status"] == "approved" and not r.get("posted")])
+    print(f"\n{approved} reply(ies) ready to post. Run 'python3 bot.py reply-post' to publish.")
+
+
+def post_replies():
+    """Post approved replies to X.com."""
+    if not SESSION_FILE.exists():
+        print("No session found. Run import_cookies.py first.")
+        return
+
+    queue = load_json(REPLY_QUEUE_FILE)
+    to_post = [r for r in queue if r["status"] == "approved" and not r.get("posted")]
+
+    if not to_post:
+        print("No approved replies to post.")
+        return
+
+    print(f"Posting {len(to_post)} reply(ies) to X.com...\n")
+
+    from camoufox.sync_api import Camoufox
+
+    with Camoufox(headless=False) as browser:
+        page = browser.new_page()
+        context = page.context
+
+        with open(SESSION_FILE) as f:
+            storage = json.load(f)
+        for cookie in storage.get("cookies", []):
+            try:
+                context.add_cookies([cookie])
+            except Exception:
+                pass
+
+        page.goto("https://x.com/home", wait_until="domcontentloaded")
+        time.sleep(5)
+
+        if "/login" in page.url or "/flow" in page.url:
+            print("Session expired! Run import_cookies.py to re-authenticate.")
+            return
+
+        print("Session valid.\n")
+
+        for reply in to_post:
+            print(f"Replying to: {reply['tweet_url']}")
+            print(f"  Text: \"{reply['text'][:60]}...\"")
+
+            try:
+                # Navigate to the tweet
+                page.goto(reply["tweet_url"], wait_until="domcontentloaded")
+                time.sleep(5)
+
+                # Click the reply button on the main tweet
+                reply_btn = page.locator('article[data-testid="tweet"]').first.locator('button[data-testid="reply"]')
+                reply_btn.click()
+                time.sleep(2)
+
+                # Type in the reply box
+                reply_box = page.locator('[data-testid="tweetTextarea_0"]')
+                reply_box.click()
+                time.sleep(0.5)
+                reply_box.type(reply["text"], delay=20)
+                time.sleep(1)
+
+                # Post the reply
+                page.locator('[data-testid="tweetButton"]').click()
+                time.sleep(3)
+
+                reply["posted"] = True
+                reply["posted_at"] = datetime.now().isoformat()
+                reply["status"] = "posted"
+                print(f"  Posted!")
+
+                time.sleep(3)
+
+            except Exception as e:
+                print(f"  Failed to post: {e}")
+                reply["post_error"] = str(e)
+
+        save_json(REPLY_QUEUE_FILE, queue)
+
+        # Update session
+        new_storage = context.storage_state()
+        with open(SESSION_FILE, "w") as f:
+            json.dump(new_storage, f, indent=2)
+
+    posted_count = len([r for r in to_post if r.get("posted")])
+    print(f"\nDone. {posted_count} replies posted.")
+
+
+def show_reply_status():
+    """Show reply queue status."""
+    queue = load_json(REPLY_QUEUE_FILE)
+
+    pending = [r for r in queue if r["status"] == "pending"]
+    approved = [r for r in queue if r["status"] == "approved" and not r.get("posted")]
+    rejected = [r for r in queue if r["status"] == "rejected"]
+    posted = [r for r in queue if r.get("posted")]
+
+    print(f"Reply Queue Status:")
+    print(f"  Pending approval: {len(pending)}")
+    print(f"  Approved (ready to post): {len(approved)}")
+    print(f"  Rejected: {len(rejected)}")
+    print(f"  Posted: {len(posted)}")
+
+    if approved:
+        print(f"\nReady to post:")
+        for r in approved:
+            print(f"  #{r['id']}: \"{r['text'][:70]}...\"")
+            print(f"         To: {r['tweet_url']}")
+
+
 def show_status():
     """Show current queue status."""
     queue = load_json(QUEUE_FILE)
@@ -309,6 +503,19 @@ def main():
         analyze_engagement()
     elif cmd == "status":
         show_status()
+    elif cmd == "replies":
+        scrape_replies()
+    elif cmd == "reply-add":
+        if len(sys.argv) < 4:
+            print("Usage: python3 bot.py reply-add \"reply text\" tweet_url")
+            return
+        add_reply(sys.argv[2], sys.argv[3])
+    elif cmd == "reply-approve":
+        approve_replies()
+    elif cmd == "reply-post":
+        post_replies()
+    elif cmd == "reply-status":
+        show_reply_status()
     else:
         print(f"Unknown command: {cmd}")
         print(__doc__)
