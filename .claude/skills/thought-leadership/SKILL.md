@@ -45,11 +45,11 @@ Every newsletter that converts has four components working together:
 
 ### Step 1: Load Context Profiles
 
-Before writing a single word, load all context profiles from `/context/core/`:
+Before writing a single word, load all context profiles from `/context/`:
 
-- `voice-dna.json` — How the user actually sounds (not how AI thinks they should sound)
-- `icp.json` — The specific human they're writing for
-- `business-profile.json` — What they offer and why it matters
+- `voice.json` — How the user actually sounds (not how AI thinks they should sound)
+- `audience.json` — The specific human they're writing for
+- `business-*.json (or relevant business profile)` — What they offer and why it matters
 
 These aren't optional. Skip them and you're writing for nobody.
 
@@ -199,7 +199,7 @@ Headers aren't labels. They're mini-insights.
 | Structure | Best For | Example Headers |
 |-----------|----------|-----------------|
 | **Tips** | Tactical advice | "Tip 3: Use JSON for context profiles, not paragraphs." |
-| **Steps** | Sequential processes | "Step 2: Build your Voice DNA profile." |
+| **Steps** | Sequential processes | "Step 2: Build your voice profile." |
 | **Mistakes** | What to avoid | "Mistake 1: Prompting without context." |
 | **Lessons** | Hard-won insights | "Lesson 4: AI can't read your mind (yet)." |
 | **Reasons** | Making a case | "Reason 2: Context compounds. Prompts don't." |
@@ -254,7 +254,7 @@ Each section follows a rhythm:
 | Principle | What It Means | Example |
 |-----------|---------------|---------|
 | **Specific over general** | Real examples, actual numbers, concrete details | "This cut my writing time from 4 hours to 35 minutes" not "This saved me lots of time" |
-| **Actionable** | Reader knows exactly what to DO | "Create a file called voice-dna.json in your context folder" |
+| **Actionable** | Reader knows exactly what to DO | "Create a file called voice.json in your context folder" |
 | **No fluff** | Every sentence earns its place | If you can delete a sentence and lose nothing, delete it |
 | **Skimmable** | Easy to scan and extract value | Short paragraphs, white space, clear structure |
 
@@ -267,7 +267,7 @@ Before you prompt anything, Claude needs to know who you are.
 
 Not your name. Your voice. How you write. What you never say. The phrases you overuse. The rhythm of your sentences. The way you open a newsletter versus close one.
 
-I call this your Voice DNA. It's a structured profile that captures:
+I call this your voice profile. It's a structured profile that captures:
 
 - Your tone and personality
 - Your sentence patterns and rhythms
@@ -387,7 +387,7 @@ Before delivering, verify:
 - [ ] No fluff, no filler, no throat-clearing
 - [ ] 800-1,500 words total
 - [ ] Formatted for email (short paragraphs, white space, clean)
-- [ ] Sounds like the user (verified against voice-dna.json)
+- [ ] Sounds like the user (verified against voice.json)
 - [ ] Has it been run through the humanizer?
 
 ---
@@ -409,7 +409,7 @@ Before delivering, verify:
 | ❌ Don't | ✅ Do |
 |----------|-------|
 | "Be consistent with your content" | "Publish every Tuesday at 9am. Your audience will expect it." |
-| "Build a system" | "Create three JSON files: voice-dna, icp, business-profile." |
+| "Build a system" | "Set up your context files in the context folder." |
 | "Use AI effectively" | "Give Claude your last 10 newsletters before asking it to write a new one." |
 
 **Fix:** Replace every general statement with a specific action, number, or example.
@@ -431,7 +431,7 @@ The newsletter should sound like a person, not a textbook.
 **Ways to add personality:**
 - Include your actual opinions ("I think most prompting advice is wrong")
 - Share real moments ("Last week I deleted 47 prompts")
-- Use your language patterns (check voice-dna.json)
+- Use your language patterns (check voice.json)
 - Have a point of view ("Everyone says X. I disagree.")
 
 **Fix:** After writing, read it out loud. If it sounds like a robot, rewrite the flat parts.

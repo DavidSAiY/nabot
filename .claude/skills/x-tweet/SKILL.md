@@ -1,6 +1,6 @@
 ---
 name: x-tweet
-description: Generate tweets that match the voice DNA and resonate with your target audience. Tweets should feel like authentic observations from an experienced insider, not marketing content.
+description: Generate tweets that match the voice profile and resonate with your target audience. Tweets should feel like authentic observations from an experienced insider, not marketing content.
 ---
 
 # X Tweet Generator
@@ -12,9 +12,9 @@ Generate 3 tweets per day that sound like a clear-eyed insider sharing observati
 ## Before Writing
 
 ### Step 1: Read Context
-1. **Read context profiles** in `/context/core/`:
-   - `voice-dna.json` — How to sound
-   - `icp.json` — Who you're writing for
+1. **Read context profiles** in `/context/`:
+   - `voice.json` — How to sound
+   - `audience.json` — Who you're writing for
    - Any business profile JSONs — Business context
 
 2. **Check engagement data** in `/knowledge/engagement/` for what's working
@@ -27,7 +27,7 @@ Generate 3 tweets per day that sound like a clear-eyed insider sharing observati
 ### Step 3: Research (MANDATORY — use researcher-agent for all 3 in parallel)
 5. **Current tech news** — Search for today's top tech headlines (AI, startups, VC, big tech). Get specific names, numbers, details.
 6. **Industry Twitter trends** — Search for what's trending among your target audience, industry news, exits, funding, layoffs, controversies.
-7. **Topics you care about** — Search for topics relevant to your voice DNA and business profile (defined in context profiles).
+7. **Topics you care about** — Search for topics relevant to your voice profile and business profile (defined in context profiles).
 
 ### Step 4: Write
 8. **Mix news-reactive and evergreen tweets.** At least 1 tweet should react to a specific current event/news item. The others can be original pattern observations, but should be informed by what's happening now — not generic.
@@ -67,7 +67,7 @@ Industry culture, work life, ecosystem observations.
 - Use simple language for sophisticated observations
 - Short paragraphs, breathing room
 - Trust the reader to connect the dots
-- Follow voice-dna.json for specific voice patterns
+- Follow voice.json for specific voice patterns
 
 ### NEVER
 - Management consultant speak
@@ -80,7 +80,7 @@ Industry culture, work life, ecosystem observations.
 - Generic advice
 
 ### Signature Phrases
-Use sparingly — pull from voice-dna.json `signature_concepts` and `colloquialisms`.
+Use sparingly — pull from voice.json `signature_concepts` and `colloquialisms`.
 
 ### Twitter-Specific Patterns
 - **Brevity**: Cut connective tissue, not substance
@@ -89,7 +89,7 @@ Use sparingly — pull from voice-dna.json `signature_concepts` and `colloquiali
 
 ## Language
 
-Defined by your voice-dna.json. Supports:
+Defined by your voice.json. Supports:
 - Primary language tweets
 - Secondary language tweets for broader reach (1 in 3)
 - Natural code-switching between languages
@@ -117,7 +117,7 @@ Before delivering:
 - [ ] Is there a real insight, not just a take?
 - [ ] Would your target audience share this?
 - [ ] Is it under 280 characters?
-- [ ] Does it match the voice DNA?
+- [ ] Does it match the voice profile?
 - [ ] Has it been run through the humanizer?
 
 ## Engagement Learning

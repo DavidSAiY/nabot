@@ -1,13 +1,13 @@
 # Voice Analyzer Agent
 
-**Purpose:** Analyze high-engagement social media posts (Twitter/LinkedIn) to extract authentic voice patterns and update voice-dna.json with real examples from content that resonated with your audience.
+**Purpose:** Analyze high-engagement social media posts (Twitter/LinkedIn) to extract authentic voice patterns and update voice.json with real examples from content that resonated with your audience.
 
 ---
 
 ## When to Use This Agent
 
 Invoke this agent when:
-- You want to update your voice DNA based on real content performance
+- You want to update your voice profile based on real content performance
 - You have new high-performing tweets or LinkedIn posts
 - You want to identify what actually resonates vs what you think your voice is
 - You're refining your voice profile
@@ -189,17 +189,17 @@ For each, note:
 - Engagement metrics
 - Why it's quintessential (what patterns it demonstrates)
 
-### Step 5: Compare to Current Voice DNA
+### Step 5: Compare to Current voice profile
 
-Read `/context/core/voice-dna.json` and compare:
+Read `/context/voice.json` and compare:
 - **What's accurate?** Patterns confirmed by high-engagement content
-- **What's missing?** Patterns in top posts not captured in voice DNA
-- **What's aspirational?** Things in voice DNA that don't show up in actual top content
+- **What's missing?** Patterns in top posts not captured in voice profile
+- **What's aspirational?** Things in voice profile that don't show up in actual top content
 - **What's new?** Emerging patterns in recent high-performers
 
-### Step 6: Generate Voice DNA Update
+### Step 6: Generate voice profile Update
 
-Create an updated voice DNA that:
+Create an updated voice profile that:
 1. **Preserves what works** - Patterns confirmed by engagement
 2. **Adds what's missing** - Real patterns from top content
 3. **Removes what's aspirational** - Things you think you sound like but don't
@@ -225,13 +225,13 @@ Show the user:
 2. [Pattern] - seen in X posts, avg Y engagement
 3. [Pattern] - seen in X posts, avg Y engagement
 
-### What's Missing from Current Voice DNA:
+### What's Missing from Current voice profile:
 1. [Missing pattern] - appears in top posts but not documented
 2. [Missing pattern] - appears in top posts but not documented
 
 ### What's Aspirational (Not in Top Content):
-1. [Voice DNA element] - documented but not seen in high-performers
-2. [Voice DNA element] - documented but not seen in high-performers
+1. [voice profile element] - documented but not seen in high-performers
+2. [voice profile element] - documented but not seen in high-performers
 
 ### Signature Patterns Confirmed:
 - [Linguistic pattern]: "exact example from post"
@@ -246,7 +246,7 @@ Show the user:
    - Why quintessential: [explanation]
 ```
 
-#### Proposed Voice DNA Updates:
+#### Proposed voice profile Updates:
 ```json
 {
   "sections_to_update": {
@@ -265,16 +265,16 @@ Show the user:
 ### Step 8: Get User Approval
 
 Ask:
-- "Should I update voice-dna.json with these findings?"
+- "Should I update voice.json with these findings?"
 - "Are there any patterns you want to keep even if they're not in top posts?"
 - "Are there any high-engagement patterns you want to exclude?"
 
-### Step 9: Update Voice DNA
+### Step 9: Update voice profile
 
 If approved:
-1. Read current `/context/core/voice-dna.json`
+1. Read current `/context/voice.json`
 2. Apply updates based on analysis
-3. Write updated voice DNA
+3. Write updated voice profile
 4. Confirm completion
 
 ---
@@ -286,7 +286,7 @@ If approved:
 Save to: `/context/analysis/voice-analysis-[date].md`
 
 ```markdown
-# Voice DNA Analysis Report
+# voice profile Analysis Report
 Date: [date]
 Source: Twitter + LinkedIn top posts
 
@@ -313,15 +313,15 @@ Source: Twitter + LinkedIn top posts
 [Top 5-10 posts with analysis]
 
 ## Recommendations
-[Specific updates to voice-dna.json]
+[Specific updates to voice.json]
 
 ## Appendix: All High-Engagement Posts
 [Full list for reference]
 ```
 
-### Updated Voice DNA (JSON)
+### Updated voice profile (JSON)
 
-Save to: `/context/core/voice-dna.json` (after approval)
+Save to: `/context/voice.json` (after approval)
 
 ---
 
@@ -339,14 +339,14 @@ Save to: `/context/core/voice-dna.json` (after approval)
 ❌ Remove your authentic voice
 ❌ Chase trends or viral tactics
 ❌ Optimize for engagement over authenticity
-❌ Update voice DNA without your approval
+❌ Update voice profile without your approval
 
 ### Key Principles
 
 1. **Performance = Signal**: High engagement shows what resonates, but it's still YOU
 2. **Authenticity First**: Never suggest patterns that aren't genuinely yours
 3. **Evidence-Based**: Every pattern must have examples from your content
-4. **User Control**: Always get approval before updating voice DNA
+4. **User Control**: Always get approval before updating voice profile
 5. **Preserve Context**: Keep full posts for context, not just excerpts
 
 ---
@@ -355,7 +355,7 @@ Save to: `/context/core/voice-dna.json` (after approval)
 
 ### Scenario 1: Update from Twitter
 ```
-User: "I want to analyze my last 50 tweets and update my voice DNA based on what performed best"
+User: "I want to analyze my last 50 tweets and update my voice profile based on what performed best"
 
 Agent:
 1. "Please provide your Twitter handle or paste your last 50 tweets with engagement metrics"
@@ -363,16 +363,16 @@ Agent:
 3. Uses WebFetch to scrape recent tweets
 4. Analyzes top 10 by engagement
 5. Extracts patterns
-6. Compares to current voice DNA
+6. Compares to current voice profile
 7. Presents findings and recommendations
 8. Gets approval
-9. Updates voice-dna.json
+9. Updates voice.json
 ```
 
 ### Scenario 2: Update from LinkedIn + Twitter
 ```
 User: "Here are my top 20 LinkedIn posts and top 30 tweets from the last 6 months.
-Update my voice DNA based on these."
+Update my voice profile based on these."
 
 Agent:
 1. Parses provided content
@@ -380,20 +380,20 @@ Agent:
 3. Selects top 15 total (balanced between platforms)
 4. Analyzes patterns
 5. Identifies platform-specific vs universal patterns
-6. Compares to current voice DNA
+6. Compares to current voice profile
 7. Presents findings
 8. Gets approval
-9. Updates voice-dna.json
+9. Updates voice.json
 ```
 
 ### Scenario 3: Validation Check
 ```
-User: "Just validate my current voice DNA against my top posts. Don't update anything."
+User: "Just validate my current voice profile against my top posts. Don't update anything."
 
 Agent:
 1. Gets content source
 2. Analyzes top posts
-3. Compares to voice DNA
+3. Compares to voice profile
 4. Reports on alignment
 5. Highlights discrepancies
 6. Provides report only (no updates)
@@ -421,17 +421,17 @@ Agent:
 
 ### Output Files
 - Analysis report: `/context/analysis/voice-analysis-YYYY-MM-DD.md`
-- Updated voice DNA: `/context/core/voice-dna.json`
+- Updated voice profile: `/context/voice.json`
 - Raw data backup: `/context/analysis/voice-raw-data-YYYY-MM-DD.json`
 
 ---
 
 ## Quality Checklist
 
-Before updating voice DNA:
+Before updating voice profile:
 - [ ] Analyzed at least 20+ high-engagement posts
 - [ ] Identified 5+ clear patterns with examples
-- [ ] Compared findings to current voice DNA
+- [ ] Compared findings to current voice profile
 - [ ] Selected 5-10 illustrative moments
 - [ ] Got user approval for updates
 - [ ] Preserved user's authentic voice

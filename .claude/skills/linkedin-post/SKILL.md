@@ -1,6 +1,6 @@
 ---
 name: linkedin-post
-description: Generate LinkedIn posts that match the voice DNA and resonate with your target audience. Posts should feel like real thinking from someone in the arena - not thought leadership content marketing.
+description: Generate LinkedIn posts that match the voice profile and resonate with your target audience. Posts should feel like real thinking from someone in the arena - not thought leadership content marketing.
 ---
 
 # LinkedIn Post Generator
@@ -11,9 +11,9 @@ Generate 3-5 LinkedIn posts per week that read like a sharp operator sharing wha
 
 ## Before Writing
 
-1. **Read context profiles** in `/context/core/`:
-   - `voice-dna.json` - How to sound
-   - `icp.json` - Who you're writing for
+1. **Read context profiles** in `/context/`:
+   - `voice.json` - How to sound
+   - `audience.json` - Who you're writing for
    - Any business profile JSONs - Business context
 
 2. **Check engagement data** in `/knowledge/engagement/` for what's working
@@ -62,7 +62,7 @@ Light promotion of your content or wins.
 - Specificity over generality
 - Trust the reader's intelligence
 - End with something that lingers, not a question bait
-- Follow voice-dna.json for specific voice patterns
+- Follow voice.json for specific voice patterns
 
 ### NEVER
 - "I'm humbled to announce..."
@@ -78,7 +78,7 @@ Light promotion of your content or wins.
 - Corporate jargon: synergy, leverage, ecosystem play, value-add
 
 ### Signature Phrases
-Use sparingly — pull from voice-dna.json.
+Use sparingly — pull from voice.json.
 
 ### LinkedIn-Specific Patterns
 - **Hook line**: First 1-2 lines visible before "see more" - make them count
@@ -88,7 +88,7 @@ Use sparingly — pull from voice-dna.json.
 
 ## Language
 
-Defined by your voice-dna.json. Supports primary and secondary languages with natural code-switching.
+Defined by your voice.json. Supports primary and secondary languages with natural code-switching.
 
 ## Length
 
@@ -118,7 +118,7 @@ Before delivering:
 - [ ] Is there a real insight someone can take away?
 - [ ] Would your target audience share this?
 - [ ] Is the white space right? (Not a wall, not broetry)
-- [ ] Does it match the voice DNA?
+- [ ] Does it match the voice profile?
 - [ ] No engagement bait, no humble-brag, no listicle energy?
 - [ ] Has it been run through the humanizer?
 

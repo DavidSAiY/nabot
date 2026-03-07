@@ -26,11 +26,10 @@ podcast/manifest.json
 podcast/voice_analysis.json
 podcast/overnight.log
 
-# Personal context profiles (use templates to create your own)
-context/core/voice-dna.json
-context/core/icp.json
-context/core/business-profile-*.json
-!context/core/business-profile-template.json
+# Personal context (use TEMPLATE.md to create your own)
+context/voice.*
+context/audience.*
+context/business-*.json
 context/analysis/
 
 # Personal knowledge & content

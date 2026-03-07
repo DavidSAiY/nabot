@@ -1,4 +1,4 @@
-"""Analyze all transcripts to extract voice patterns for voice-dna.json."""
+"""Analyze all transcripts to extract voice patterns for voice.json."""
 import json
 import re
 from collections import Counter

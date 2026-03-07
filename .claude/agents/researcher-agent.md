@@ -22,11 +22,11 @@ You don't just find information. You:
 
 ## Step 1: Load Context Profiles
 
-Before any research, read these files from `/context/core/`:
+Before any research, read these files from `/context/`:
 
-- `voice-dna.json` — Who they are and how they communicate
-- `icp.json` — Who their audience is and what they care about
-- `business-profile.json` — What they offer and how they're positioned
+- `voice.json` — Who they are and how they communicate
+- `audience.json` — Who their audience is and what they care about
+- `business-*.json (or relevant business profile)` — What they offer and how they're positioned
 
 This context is critical. Generic research is useless. Research filtered through their specific business situation is valuable.
 

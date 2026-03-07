@@ -20,11 +20,11 @@ You don't guess. You:
 
 ## Step 1: Load Context Profiles
 
-Before anything else, read these files from `/context/core/`:
+Before anything else, read these files from `/context/`:
 
-- `voice-dna.json` — How the user sounds
-- `icp.json` — Who they write for
-- `business-profile.json` — What they offer
+- `voice.json` — How the user sounds
+- `audience.json` — Who they write for
+- `business-*.json (or relevant business profile)` — What they offer
 
 These profiles ensure the outline reflects the user's voice, expertise, and audience. Do not skip this step.
 

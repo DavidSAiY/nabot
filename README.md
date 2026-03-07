@@ -1,31 +1,26 @@
 # NaBot
 
-AI co-writing system that learns your voice and creates content that sounds like you. Built on [Claude Code](https://claude.ai/claude-code).
+AI content automation system built on [Claude Code](https://claude.ai/claude-code). Generates tweets, LinkedIn posts, and newsletters in your voice — with built-in research, engagement tracking, and a feedback loop that learns what works.
 
-NaBot generates tweets, LinkedIn posts, newsletters, and more — all matching your authentic voice, not generic AI output. It learns from your existing content (tweets, podcast episodes, writing samples) to build a voice DNA profile, then uses that profile across all content skills.
+Not a writing template. An automation system with a tweet bot CLI, engagement scraping, podcast transcription pipeline, and AI writing decontamination.
 
-## How It Works
+## How it works
 
 ```
-Your Content (tweets, podcasts, writing)
-         ↓
-   Voice DNA Analysis
-         ↓
-   Context Profiles (voice, audience, business)
-         ↓
-   Skills (tweet, linkedin, newsletter...)
-         ↓
-   Content That Sounds Like You
+Scrape engagement → Research news → Generate content → Humanize → Approve → Post
+         ↑                                                                    |
+         └────────────────── feedback loop ───────────────────────────────────┘
 ```
 
-1. **Analyze your voice** — Feed it your tweets, podcast episodes, or writing samples. It extracts your patterns, phrases, tone, and style into a voice DNA profile.
-2. **Define your context** — Fill in templates for your audience (ICP), business profile, and voice DNA. These are the source of truth for all content.
-3. **Generate content** — Use skills to create tweets, LinkedIn posts, newsletters. Each skill reads your context profiles and produces content in your voice.
-4. **Learn from engagement** — Scrape engagement data from your posts. The system learns what resonates and adjusts.
+1. **Build your voice profile** — Feed it your tweets, podcast episodes, or writing samples. It extracts patterns, phrases, tone, and style.
+2. **Set your context** — Fill in the template with your voice, audience, and business info. One file, markdown, done.
+3. **Generate content** — Skills handle specific content types (tweets, LinkedIn, newsletters). Each reads your context and produces content in your voice.
+4. **Humanize** — Every piece of content runs through a 24-pattern AI writing detector that strips out the robot.
+5. **Post and learn** — Scrape engagement data from your posts. The system tracks what resonates and adjusts.
 
-## Quick Start
+## Quick start
 
-### 1. Clone and set up
+### 1. Clone and install
 
 ```bash
 git clone https://github.com/navotvolkgroundup/nabot.git
@@ -33,68 +28,65 @@ cd nabot
 pip install feedparser openai-whisper camoufox
 ```
 
-### 2. Create your context profiles
+### 2. Set up your context
 
-Copy the templates and fill them in with your own information:
+Copy the template and fill it in:
 
 ```bash
-cp context/core/voice-dna-template.json context/core/voice-dna.json
-cp context/core/icp-template.json context/core/icp.json
-cp context/core/business-profile-template.json context/core/business-profile.json
+cp context/TEMPLATE.md context/voice.md
+# Or use JSON if you prefer structured data — see TEMPLATE.md for sections
 ```
 
-Edit each file — the `_instructions` fields tell you what to put in each section.
-
-### 3. Set up X.com authentication (for posting/scraping)
+### 3. Set up X.com auth (for posting/scraping)
 
 ```bash
 # Install Cookie-Editor browser extension
-# Go to x.com, log in to your account
+# Go to x.com, log in
 # Export cookies → save as browser_cookies.json
 python3 import_cookies.py
 ```
 
-### 4. Set environment variables
+### 4. Environment variables
 
 ```bash
-export X_HANDLE=your_twitter_handle        # For scraping/posting
-export X_PERSONAL_HANDLE=your_main_handle  # For voice analysis from personal account
-export PODCAST_RSS_URL=https://your-rss-feed-url  # For podcast pipeline
+export X_HANDLE=your_twitter_handle
+export X_PERSONAL_HANDLE=your_main_handle
+export PODCAST_RSS_URL=https://your-rss-feed-url
 ```
 
 ### 5. Generate content
 
-Open Claude Code in this directory and ask:
+Open Claude Code in this directory:
 
 ```
-"write today's tweets"     → uses x-tweet skill
-"write a linkedin post"    → uses linkedin-post skill
-"write a newsletter"       → uses newsletter agent
+"write today's tweets"     → x-tweet skill
+"write a linkedin post"    → linkedin-post skill
+"write a newsletter"       → thought-leadership skill
 ```
 
-## Project Structure
+## Project structure
 
 ```
 nabot/
 ├── CLAUDE.md                    # System instructions for Claude
-├── context/core/                # Your context profiles
-│   ├── voice-dna.json          # How you sound (create from template)
-│   ├── icp.json                # Who you write for (create from template)
-│   ├── business-profile.json   # What you offer (create from template)
-│   └── *-template.json         # Templates to get started
+├── context/                     # Your context (voice, audience, business)
+│   ├── TEMPLATE.md             # Start here — fill this in
+│   ├── voice.json              # Your voice profile (gitignored)
+│   ├── audience.json           # Your audience (gitignored)
+│   └── business-*.json         # Your business context (gitignored)
 ├── .claude/
 │   ├── skills/                 # Content generation skills
 │   │   ├── x-tweet/           # Tweet generation with research pipeline
 │   │   ├── linkedin-post/     # LinkedIn post generation
-│   │   ├── humanizer/         # AI writing pattern removal (runs on all content)
+│   │   ├── humanizer/         # AI writing pattern removal (24 patterns)
 │   │   └── thought-leadership/ # Newsletter writing
 │   └── agents/                 # Specialized agents
-│       ├── researcher-agent.md # Research and analysis
-│       ├── voice-analyzer.md   # Voice DNA analysis from content
+│       ├── researcher-agent.md # Parallel news research
+│       ├── voice-analyzer.md   # Voice analysis from content
 │       ├── newsletter-agent.md # Newsletter coordination
 │       └── book-agent.md       # Book outline generation
 ├── knowledge/                   # Your content and data (gitignored)
-│   ├── engagement/             # Engagement logs and tweet data
+│   ├── engagement/             # Engagement logs and metrics
 │   ├── content/                # Published content
 │   ├── drafts/                 # Work in progress
 │   └── notes/                  # Ideas and research
@@ -109,55 +101,12 @@ nabot/
 └── import_cookies.py            # Import browser cookies for X.com auth
 ```
 
-## Skills
+## Tweet bot
 
-Skills are reusable instructions for specific content types. Claude reads your context profiles + the skill instructions and generates content that matches your voice.
-
-### x-tweet
-Generates 3 tweets/day with a mandatory research pipeline:
-1. Scrape engagement on past tweets
-2. Research current news (3 parallel agents)
-3. Write a mix of news-reactive and original tweets
-
-### linkedin-post
-Generates LinkedIn posts: pattern recognition, contrarian takes, tactical playbooks, ecosystem commentary.
-
-### humanizer
-Removes signs of AI-generated writing from all content. Based on Wikipedia's "Signs of AI writing" guide — detects and fixes 24 patterns including significance inflation, promotional language, AI vocabulary, em dash overuse, and more. Runs automatically as a final step on all content.
-
-### thought-leadership
-Creates newsletters (800-1,500 words) with subject lines, skimmable headers, and actionable content.
-
-## Voice DNA Pipeline
-
-Enrich your voice profile from multiple sources:
-
-### From tweets
-```bash
-# Scrape your personal account
-python3 scrape_personal.py your_handle
-# Then ask Claude to analyze and update voice-dna.json
-```
-
-### From podcast episodes
-```bash
-# Set your RSS feed
-export PODCAST_RSS_URL=https://your-rss-feed
-
-# Run the pipeline (downloads, transcribes with Whisper, deletes audio)
-python3 podcast/pipeline.py
-
-# Analyze transcripts for voice patterns
-python3 podcast/analyze_voice.py
-```
-
-### From any content
-Use the voice-analyzer agent — paste or screenshot your top-performing content and it extracts patterns and updates your voice DNA.
-
-## Tweet Bot
+The CLI for managing your tweet pipeline:
 
 ```bash
-python3 bot.py generate   # Prompt to generate tweets via Claude
+python3 bot.py generate   # Generate tweets via Claude
 python3 bot.py add "text" # Add a tweet to the approval queue
 python3 bot.py approve    # Interactive review (approve/reject/edit)
 python3 bot.py post       # Post approved tweets to X.com
@@ -165,9 +114,47 @@ python3 bot.py analyze    # Scrape engagement metrics
 python3 bot.py status     # Show queue status
 ```
 
+## Skills
+
+### x-tweet
+Generates 3 tweets/day with a mandatory pipeline:
+1. Scrape engagement on past tweets
+2. Research current news (3 parallel agents)
+3. Write a mix of news-reactive and original tweets
+4. Humanize before presenting
+
+### linkedin-post
+Pattern recognition, contrarian takes, tactical playbooks, ecosystem commentary. Humanized.
+
+### humanizer
+Strips 24 AI writing patterns from all content. Based on Wikipedia's "Signs of AI writing" guide. Runs automatically as the final step on everything.
+
+### thought-leadership
+Newsletters (800-1,500 words) with subject lines, skimmable headers, actionable content.
+
+## Voice analysis pipeline
+
+Build your voice profile from multiple sources:
+
+### From tweets
+```bash
+python3 scrape_personal.py your_handle
+# Then ask Claude to analyze and update your voice profile
+```
+
+### From podcast episodes
+```bash
+export PODCAST_RSS_URL=https://your-rss-feed
+python3 podcast/pipeline.py        # Download + transcribe with Whisper
+python3 podcast/analyze_voice.py   # Extract voice patterns
+```
+
+### From any content
+Use the voice-analyzer agent — paste or screenshot your top-performing content and it extracts patterns.
+
 ## Requirements
 
-- [Claude Code](https://claude.ai/claude-code) (for content generation)
+- [Claude Code](https://claude.ai/claude-code)
 - Python 3.10+
 - `pip install feedparser openai-whisper camoufox`
 - Browser with Cookie-Editor extension (for X.com auth)
