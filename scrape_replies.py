@@ -112,6 +112,14 @@ def scrape_tweet_replies(page, tweet_url, tweet_text):
                         author = span_text
                         break
 
+            # Reply URL (from timestamp link)
+            reply_url = ""
+            status_link = reply_el.locator('a[href*="/status/"]')
+            if status_link.count() > 0:
+                href = status_link.first.get_attribute("href") or ""
+                if "/status/" in href:
+                    reply_url = f"https://x.com{href}" if href.startswith("/") else href
+
             # Reply time
             reply_time = ""
             time_el = reply_el.locator("time")
@@ -138,6 +146,7 @@ def scrape_tweet_replies(page, tweet_url, tweet_text):
             replies.append({
                 "author": author,
                 "text": reply_text,
+                "url": reply_url,
                 "time": reply_time,
                 "metrics": metrics,
             })

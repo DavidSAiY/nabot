@@ -9,7 +9,7 @@ Usage:
   python3 bot.py analyze         — Analyze engagement on recent tweets
   python3 bot.py status          — Show current queue status
   python3 bot.py replies         — Scrape replies to recent tweets
-  python3 bot.py reply-add "text" tweet_url  — Add a reply to the queue
+  python3 bot.py reply-add "text" reply_url  — Add a reply (reply_url = the tweet you're responding to)
   python3 bot.py reply-approve   — Review and approve/reject queued replies
   python3 bot.py reply-post      — Post approved replies to X.com
   python3 bot.py reply-status    — Show reply queue status
