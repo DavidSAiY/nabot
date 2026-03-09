@@ -19,7 +19,7 @@ Generate 3 tweets per day that sound like a clear-eyed insider sharing observati
 
 2. **Check engagement data** in `/knowledge/engagement/` for what's working
 
-3. **Check recent tweets** to avoid repetition
+3. **Check tweet history** — Read `/knowledge/content/tweet_history.json` for previously written/posted tweets. Do NOT repeat the same topic or angle unless the user explicitly asks. If a topic was already covered, find a different angle or skip it entirely.
 
 ### Step 2: Scrape Engagement (MANDATORY — run BEFORE research)
 4. **Scrape your profile** — Run `scrape_profile.py` to get latest engagement data on recent tweets. Update `engagement_log.json`. Review what's working (likes, views, replies) and what's not. Use this to inform today's tweet strategy.
@@ -119,6 +119,10 @@ Before delivering:
 - [ ] Is it under 280 characters?
 - [ ] Does it match the voice profile?
 - [ ] Has it been run through the humanizer?
+
+## Tweet History
+
+After presenting tweets to the user, **always update** `/knowledge/content/tweet_history.json` with each tweet's date, topic, angle, status, and text preview. This prevents repeating the same topics/angles across sessions.
 
 ## Engagement Learning
 
