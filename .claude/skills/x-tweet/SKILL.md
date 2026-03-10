@@ -68,6 +68,7 @@ Industry culture, work life, ecosystem observations.
 - Short paragraphs, breathing room
 - Trust the reader to connect the dots
 - Follow voice.json for specific voice patterns
+- When citing specific data/statistics, always attach the source with a link at the end of the tweet (e.g. "מקור: bloomberg.com/news/articles/...")
 
 ### NEVER
 - Management consultant speak
