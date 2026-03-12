@@ -49,6 +49,9 @@ knowledge/notes/
 # Misc personal/research files
 *.html
 
+#users 
+.users/
+
 # IDE
 .vscode/
 *.local.json
