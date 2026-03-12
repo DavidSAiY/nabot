@@ -55,3 +55,6 @@ knowledge/notes/
 # IDE
 .vscode/
 *.local.json
+
+# companies record
+allyable.json
