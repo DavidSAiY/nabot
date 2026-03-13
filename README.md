@@ -1,4 +1,4 @@
-# NaBot
+# AllyableSocial
 
 AI content automation system built on [Claude Code](https://claude.ai/claude-code). Generates tweets, LinkedIn posts, and newsletters in your voice — with built-in research, engagement tracking, and a feedback loop that learns what works.
 
